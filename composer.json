@@ -1,0 +1,17 @@
+{
+    "name": "timoschinkel/codeowners-cli",
+    "description": "A cli interface for the codeowners library",
+    "type": "project",
+    "license": "Apache-2.0",
+    "require": {
+        "symfony/console": "^5.0",
+        "timoschinkel/codeowners": "^1.0",
+        "symfony/finder": "^5.0"
+    },
+    "bin": ["bin/codeowners"],
+    "autoload": {
+        "psr-4": {
+            "CodeOwners\\Cli\\": "src"
+        }
+    }
+}

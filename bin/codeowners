@@ -1,0 +1,24 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+use CodeOwners\Cli\Command\ListFilesCommand;
+use CodeOwners\Cli\Command\OwnerCommand;
+use CodeOwners\Cli\FileLocator\FileLocatorFactory;
+use CodeOwners\Cli\PatternMatcherFactory;
+use Symfony\Component\Console\Application;
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+$workingDir = realpath('.');
+$fileLocatorFactory = new FileLocatorFactory();
+$patternMatcherFactory = new PatternMatcherFactory();
+
+$app = new Application('Code owners CLI', '0.0.1');
+
+$app->addCommands([
+    new OwnerCommand($workingDir, $fileLocatorFactory, $patternMatcherFactory),
+    new ListFilesCommand($workingDir, $fileLocatorFactory, $patternMatcherFactory),
+]);
+
+$app->run();
