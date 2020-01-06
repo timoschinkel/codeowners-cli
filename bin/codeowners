@@ -8,13 +8,23 @@ use CodeOwners\Cli\FileLocator\FileLocatorFactory;
 use CodeOwners\Cli\PatternMatcherFactory;
 use Symfony\Component\Console\Application;
 
-require_once dirname(__DIR__) . '/vendor/autoload.php';
+foreach ([
+    __DIR__ . '/../autoload.php',           // When installed globally without symlinks
+    __DIR__ . '/../../../autoload.php',     // When installed globally with symlinks
+    __DIR__ . '/../vendor/autoload.php',    // When installed locally without symlinks
+    __DIR__ . '/../../autoload.php',        // When installed locally with symlinks
+] as $file) {
+    if (file_exists($file) === true) {
+        require_once($file);
+        break;
+    }
+}
 
 $workingDir = realpath('.');
 $fileLocatorFactory = new FileLocatorFactory();
 $patternMatcherFactory = new PatternMatcherFactory();
 
-$app = new Application('Code owners CLI', '0.0.1');
+$app = new Application('Code owners CLI');
 
 $app->addCommands([
     new OwnerCommand($workingDir, $fileLocatorFactory, $patternMatcherFactory),
