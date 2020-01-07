@@ -10,3 +10,4 @@ before_script:
 script:
   - ./vendor/bin/phpcs
   - ./vendor/bin/psalm
+  - ./vendor/bin/phpunit

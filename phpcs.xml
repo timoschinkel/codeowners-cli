@@ -7,4 +7,5 @@
     <rule ref="PSR12" />
 
     <file>src/</file>
+    <file>tests/</file>
 </ruleset>
