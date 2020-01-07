@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Travis inspections
 - PSR-12 coding standard using PHP CodeSniffer
+- Static analysis using Psalm
 
 ### Changed
 - Set PHP 7.2 as hard minimum requirement
