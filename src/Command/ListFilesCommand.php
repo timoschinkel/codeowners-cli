@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace CodeOwners\Cli\Command;
@@ -25,8 +26,11 @@ final class ListFilesCommand extends Command
     /** @var PatternMatcherFactoryInterface */
     private $patternMatcherFactory;
 
-    public function __construct(string $workingDirectory, FileLocatorFactoryInterface $fileLocatorFactory, PatternMatcherFactoryInterface $patternMatcherFactory)
-    {
+    public function __construct(
+        string $workingDirectory,
+        FileLocatorFactoryInterface $fileLocatorFactory,
+        PatternMatcherFactoryInterface $patternMatcherFactory
+    ) {
         $this->fileLocatorFactory = $fileLocatorFactory;
         $this->workingDirectory = $workingDirectory;
         $this->patternMatcherFactory = $patternMatcherFactory;
@@ -53,8 +57,7 @@ final class ListFilesCommand extends Command
                 'c',
                 InputArgument::OPTIONAL,
                 'Location of code owners file, defaults to <working_dir>/CODEOWNERS'
-            )
-        ;
+            );
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -75,7 +78,6 @@ final class ListFilesCommand extends Command
         $finder = new Finder();
 
         foreach ($finder->in($input->getArgument('paths'))->files() as $file) {
-
             try {
                 $pattern = $matcher->match($file->getRealPath());
 
