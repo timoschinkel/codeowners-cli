@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace CodeOwners\Cli\Command;
@@ -30,8 +31,11 @@ final class OwnerCommand extends Command
     /** @var PatternMatcherFactoryInterface */
     private $patternMatcherFactory;
 
-    public function __construct(string $workingDirectory, FileLocatorFactoryInterface $fileLocatorFactory, PatternMatcherFactoryInterface $patternMatcherFactory)
-    {
+    public function __construct(
+        string $workingDirectory,
+        FileLocatorFactoryInterface $fileLocatorFactory,
+        PatternMatcherFactoryInterface $patternMatcherFactory
+    ) {
         $this->fileLocatorFactory = $fileLocatorFactory;
         $this->workingDirectory = $workingDirectory;
         $this->patternMatcherFactory = $patternMatcherFactory;
@@ -81,7 +85,9 @@ final class OwnerCommand extends Command
                 $pattern = $matcher->match($path);
 
                 $owners = $this->formatOwners($pattern);
-                $output->writeln("✅ \"{$path}\" is owned by {$owners} according to pattern \"{$pattern->getPattern()}\"");
+                $output->writeln(
+                    "✅ \"{$path}\" is owned by {$owners} according to pattern \"{$pattern->getPattern()}\""
+                );
             } catch (NoMatchFoundException $exception) {
                 $output->writeln("🚫 \"{$path}\" has not code owner");
             }
@@ -97,7 +103,7 @@ final class OwnerCommand extends Command
 
         return join(
             ', ',
-            array_map(function(string $in): string {
+            array_map(function (string $in): string {
                 return "\"{$in}\"";
             }, $owners)
         ) .

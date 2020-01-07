@@ -4,6 +4,7 @@
     "type": "project",
     "license": "Apache-2.0",
     "require": {
+        "php": "^7.2",
         "symfony/console": "^5.0",
         "timoschinkel/codeowners": "^1.0",
         "symfony/finder": "^5.0"
@@ -13,5 +14,8 @@
         "psr-4": {
             "CodeOwners\\Cli\\": "src"
         }
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.5"
     }
 }
