@@ -43,7 +43,7 @@ final class OwnerCommand extends Command
         parent::__construct(self::NAME);
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this
             ->setDescription('Show the owner of the path')
@@ -61,10 +61,17 @@ final class OwnerCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        // Parsing input parameters:
+        $codeownersLocation = $input->getOption('codeowners');
+        if (is_string($codeownersLocation) !== true) {
+            $codeownersLocation = null;
+        }
+        $paths = array_filter((array)$input->getArgument('paths'));
+
         $file = $this->fileLocatorFactory
-            ->getFileLocator($this->workingDirectory, $input->getOption('codeowners'))
+            ->getFileLocator($this->workingDirectory, $codeownersLocation)
             ->locateFile();
 
         $output->writeln("Using CODEOWNERS definition from {$file}" . PHP_EOL, OutputInterface::VERBOSITY_VERBOSE);
@@ -75,7 +82,7 @@ final class OwnerCommand extends Command
 
         $matcher = $this->patternMatcherFactory->getPatternMatcher($file);
 
-        foreach ($input->getArgument('paths') as $path) {
+        foreach ($paths as $path) {
             if (file_exists($path) === false) {
                 $output->writeln("🚫 \"{$path}\" does not exist");
                 continue;
