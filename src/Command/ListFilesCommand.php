@@ -70,7 +70,7 @@ final class ListFilesCommand extends Command
             $codeownersLocation = null;
         }
         $owner = $input->getArgument('owner');
-        $paths = array_filter(array_map('realpath', (array)$input->getArgument('paths')));
+        $paths = $this->normalizePaths((array)$input->getArgument('paths'));
 
         $codeownersFile = $this->fileLocatorFactory
             ->getFileLocator($this->workingDirectory, $codeownersLocation)
@@ -92,11 +92,15 @@ final class ListFilesCommand extends Command
         foreach ($finder->in($paths)->files() as $file) {
             /** @var SplFileInfo $file */
             try {
-                $filePath = $file->getRealPath();
+                $filePath = (string)$file;
+                if (strpos($filePath, $this->workingDirectory . '/') === 0) {
+                    $filePath = str_replace($this->workingDirectory . '/', '', $filePath);
+                }
+
                 $pattern = $matcher->match($filePath);
 
                 if (in_array($owner, $pattern->getOwners())) {
-                    $output->writeln($file->getRealPath());
+                    $output->writeln((string)$file);
                 }
             } catch (NoMatchFoundException $exception) {
                 // we can ignore this
@@ -104,5 +108,17 @@ final class ListFilesCommand extends Command
         }
 
         return 0;
+    }
+
+    private function normalizePaths(array $paths): array
+    {
+        // This will return the path as given if `realpath` returns `false`. One of the reasons is that vfsStream does
+        // not support `realpath`.
+        return array_map(
+            function (string $path): string {
+                return realpath($path) ?: $path;
+            },
+            $paths
+        );
     }
 }
