@@ -9,9 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Travis inspections
 - PSR-12 coding standard using PHP CodeSniffer
 - Static analysis using Psalm
+- Unit tests
 
 ### Changed
 - Set PHP 7.2 as hard minimum requirement
+
+### Fixed
+- Fixed issue [#3](https://github.com/timoschinkel/codeowners-cli/issues/3) `list-files` appears to struggle with leading slashes in CODEOWNERS file
 
 ## [0.0.2] - 2020-01-06
 ### Added

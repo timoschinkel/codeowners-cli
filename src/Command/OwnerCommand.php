@@ -83,7 +83,7 @@ final class OwnerCommand extends Command
         $matcher = $this->patternMatcherFactory->getPatternMatcher($file);
 
         foreach ($paths as $path) {
-            if (file_exists($path) === false) {
+            if (file_exists($this->workingDirectory . '/' . $path) === false) {
                 $output->writeln("🚫 \"{$path}\" does not exist");
                 continue;
             }
@@ -96,7 +96,7 @@ final class OwnerCommand extends Command
                     "✅ \"{$path}\" is owned by {$owners} according to pattern \"{$pattern->getPattern()}\""
                 );
             } catch (NoMatchFoundException $exception) {
-                $output->writeln("🚫 \"{$path}\" has not code owner");
+                $output->writeln("🚫 \"{$path}\" has no code owner");
             }
         }
 
