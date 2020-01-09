@@ -20,7 +20,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
-final class ListCommandTest extends TestCase
+final class ListFilesCommandTest extends TestCase
 {
     /** @var FileLocatorFactoryInterface|ObjectProphecy */
     private $fileLocatorFactory;
