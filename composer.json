@@ -6,7 +6,7 @@
     "require": {
         "php": "^7.2",
         "symfony/console": "^5.0",
-        "timoschinkel/codeowners": "^1.0",
+        "timoschinkel/codeowners": "^1.1.0",
         "symfony/finder": "^5.0"
     },
     "bin": ["bin/codeowners"],

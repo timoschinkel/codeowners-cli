@@ -4,9 +4,11 @@
 declare(strict_types=1);
 
 use CodeOwners\Cli\Command\ListFilesCommand;
+use CodeOwners\Cli\Command\ListOwnersCommand;
 use CodeOwners\Cli\Command\OwnerCommand;
 use CodeOwners\Cli\FileLocator\FileLocatorFactory;
 use CodeOwners\Cli\PatternMatcherFactory;
+use CodeOwners\Parser;
 use Symfony\Component\Console\Application;
 
 foreach ([
@@ -30,6 +32,7 @@ $app = new Application('Code owners CLI');
 $app->addCommands([
     new OwnerCommand($workingDir, $fileLocatorFactory, $patternMatcherFactory),
     new ListFilesCommand($workingDir, $fileLocatorFactory, $patternMatcherFactory),
+    new ListOwnersCommand($workingDir, $fileLocatorFactory, new Parser()),
 ]);
 
 $app->run();
