@@ -34,6 +34,16 @@ codeowners [options] <command>
 export PATH=~/.composer/vendor/bin:$PATH
 ```
 
+All commands have the options supplied by Symfony Console:
+
+* `-q`, `--quiet`; Do no output any message
+* `-v|vv|vvv`, `--verbose`; Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+When no CODEOWNERS file is specified - using `-c` or `--codeowners` - the application will search the CODEOWNERS file in the following locations based on the working directory:
+* `<working_dir>/.github/CODEOWNERS`
+* `<working_dir>/.bitbucket/CODEOWNERS`
+* `<working_dir>/CODEOWNERS`
+
 ### Available commands
 #### `owner`
 Shows the owner of the path(s) passed as parameter.
@@ -80,6 +90,23 @@ The output of this command can be used to feed into other tools using `xargs`:
 
 ```bash
 codeowners list-files @team ./src | xargs <command>
+```
+
+#### `list-owners`
+Shows all available owners inside the found CODEOWNERS file.
+
+```bash
+Usage:
+  list-owners [options]
+
+Options:
+  -c, --codeowners=CODEOWNERS  Location of code owners file, defaults to <working_dir>/CODEOWNERS
+```
+
+For example:
+
+```bash
+codeowners list-owners
 ```
 
 [codeowners]: https://packagist.org/packages/timoschinkel/codeowners
