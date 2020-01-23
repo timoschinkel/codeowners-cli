@@ -42,7 +42,11 @@ All commands have the options supplied by Symfony Console:
 When no CODEOWNERS file is specified - using `-c` or `--codeowners` - the application will search the CODEOWNERS file in the following locations based on the working directory:
 * `<working_dir>/.github/CODEOWNERS`
 * `<working_dir>/.bitbucket/CODEOWNERS`
+* `<working_dir>/.gitlab/CODEOWNERS`
 * `<working_dir>/CODEOWNERS`
+* `<working_dir>/docs/CODEOWNERS`
+
+Calling the command with the verbose option will print what file is used when applicable.
 
 ### Available commands
 #### `owner`

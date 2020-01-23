@@ -7,10 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Added command `list-owners` that lists all owners specified in the CODEOWNERS file
+- Add `.gitlab/` to the locations where a CODEOWNERS file is searched ([#6](https://github.com/timoschinkel/codeowners-cli/issues/6))
 
 ### Changed
 - Renamed `\CodeOwners\Cli\Tests\Command\ListCommandTest` to `\CodeOwners\Cli\Tests\Command\ListFilesCommandTest`
 - Updated required version of `timoschinkel/codeowners` to `^1.1.0`
+- Changed order for searching `CODEOWNERS` file to `.github/|.gitlab/|.bitbucket/` > `root` > `docs/` ([#6](https://github.com/timoschinkel/codeowners-cli/issues/6))
 
 ## [1.0.0] - 2020-01-08
 ### Added
