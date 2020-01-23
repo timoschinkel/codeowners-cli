@@ -45,6 +45,20 @@ final class SearchFileLocatorTest extends TestCase
                 ],
                 '/.bitbucket/CODEOWNERS',
             ],
+            'prioritize .gitlab over root' => [
+                [
+                    'CODEOWNERS' => '#',
+                    '.gitlab' => ['CODEOWNERS' => '#']
+                ],
+                '/.gitlab/CODEOWNERS',
+            ],
+            'prioritize root over docs/' => [
+                [
+                    'CODEOWNERS' => '#',
+                    'docs' => ['CODEOWNERS' => '#']
+                ],
+                '/CODEOWNERS',
+            ],
         ];
     }
 

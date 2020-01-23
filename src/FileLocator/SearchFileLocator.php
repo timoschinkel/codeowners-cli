@@ -20,10 +20,14 @@ final class SearchFileLocator implements FileLocatorInterface
      */
     public function locateFile(): string
     {
+        // Direct answer from Github: order is `.github/` > `root` > `docs/`
+        // This is extrapolated to Gitlab and Bitbucket
         $suggestions = [
             "{$this->workingDirectory}/.github/CODEOWNERS",
             "{$this->workingDirectory}/.bitbucket/CODEOWNERS",
+            "{$this->workingDirectory}/.gitlab/CODEOWNERS",
             "{$this->workingDirectory}/CODEOWNERS",
+            "{$this->workingDirectory}/docs/CODEOWNERS",
         ];
 
         foreach ($suggestions as $suggestion) {
