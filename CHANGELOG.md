@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.1.0] - 2020-01-23
 ### Added
 - Added command `list-owners` that lists all owners specified in the CODEOWNERS file
 - Add `.gitlab/` to the locations where a CODEOWNERS file is searched ([#6](https://github.com/timoschinkel/codeowners-cli/issues/6))
