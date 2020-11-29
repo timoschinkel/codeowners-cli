@@ -15,6 +15,7 @@ use CodeOwners\PatternMatcherInterface;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -24,6 +25,8 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 final class OwnerCommandTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var FileLocatorFactoryInterface|ObjectProphecy */
     private $fileLocatorFactory;
 
@@ -82,9 +85,9 @@ final class OwnerCommandTest extends TestCase
 
         $output = $this->executeCommand($command, ['paths' => ['file-a', 'file-b', 'file-non-existent']]);
 
-        self::assertRegExp('/"file-a".+"@owner-a" and "@owner-b"/m', $output);
-        self::assertRegExp('/"file-b".+no code owner/m', $output);
-        self::assertRegExp('/"file-non-existent".+does not exist/m', $output);
+        self::assertMatchesRegularExpression('/"file-a".+"@owner-a" and "@owner-b"/m', $output);
+        self::assertMatchesRegularExpression('/"file-b".+no code owner/m', $output);
+        self::assertMatchesRegularExpression('/"file-non-existent".+does not exist/m', $output);
     }
 
     public function testCommandPassesCodeownerFileLocation(): void

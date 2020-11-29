@@ -14,6 +14,7 @@ use CodeOwners\Pattern;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -22,6 +23,8 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 final class ListOwnersCommandTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var FileLocatorFactoryInterface|ObjectProphecy */
     private $fileLocatorFactory;
 
