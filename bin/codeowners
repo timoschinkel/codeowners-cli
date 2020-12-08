@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 use CodeOwners\Cli\Command\ListFilesCommand;
 use CodeOwners\Cli\Command\ListOwnersCommand;
+use CodeOwners\Cli\Command\ListUnownedFilesCommand;
 use CodeOwners\Cli\Command\OwnerCommand;
 use CodeOwners\Cli\FileLocator\FileLocatorFactory;
 use CodeOwners\Cli\PatternMatcherFactory;
@@ -32,6 +33,7 @@ $app = new Application('Code owners CLI');
 $app->addCommands([
     new OwnerCommand($workingDir, $fileLocatorFactory, $patternMatcherFactory),
     new ListFilesCommand($workingDir, $fileLocatorFactory, $patternMatcherFactory),
+    new ListUnownedFilesCommand($workingDir, $fileLocatorFactory, $patternMatcherFactory),
     new ListOwnersCommand($workingDir, $fileLocatorFactory, new Parser()),
 ]);
 
