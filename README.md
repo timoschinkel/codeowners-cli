@@ -96,6 +96,26 @@ The output of this command can be used to feed into other tools using `xargs`:
 codeowners list-files @team ./src | xargs <command>
 ```
 
+#### `list-unowned-files`
+Shows all files that don't have an owner specified:
+
+```bash
+Usage:
+  list-unowned-files [options] [--] <paths>...
+
+Arguments:
+  paths                        Paths to files or directories to show code owner, separate with spaces
+
+Options:
+  -c, --codeowners=CODEOWNERS  Location of code owners file, defaults to <working_dir>/CODEOWNERS
+```
+
+For example:
+
+```bash
+codeowners list-unowned-files ./src
+```
+
 #### `list-owners`
 Shows all available owners inside the found CODEOWNERS file.
 
