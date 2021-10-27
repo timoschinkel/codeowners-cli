@@ -72,7 +72,7 @@ final class ListOwnersCommand extends Command
 
         $owners = [];
 
-        foreach ($this->parser->parse($codeownersFile) as $pattern) {
+        foreach ($this->parser->parseFile($codeownersFile) as $pattern) {
             $owners = array_merge($owners, $pattern->getOwners());
         }
 

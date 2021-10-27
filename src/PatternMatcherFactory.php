@@ -12,6 +12,6 @@ final class PatternMatcherFactory implements PatternMatcherFactoryInterface
 {
     public function getPatternMatcher(string $file): PatternMatcherInterface
     {
-        return new PatternMatcher(...(new Parser())->parse($file));
+        return new PatternMatcher(...(new Parser())->parseFile($file));
     }
 }

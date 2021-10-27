@@ -60,7 +60,7 @@ final class ListOwnersCommandTest extends TestCase
             ->willReturn($fileLocator->reveal());
 
         $this->parser
-            ->parse($filesystem->url() . '/CODEOWNERS')
+            ->parseFile($filesystem->url() . '/CODEOWNERS')
             ->shouldBeCalled()
             ->willReturn([
                 new Pattern('pattern 01', ['owner 01', 'owner 02']),
