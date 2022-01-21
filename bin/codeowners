@@ -28,7 +28,7 @@ $workingDir = realpath('.');
 $fileLocatorFactory = new FileLocatorFactory();
 $patternMatcherFactory = new PatternMatcherFactory();
 
-$app = new Application('Code owners CLI');
+$app = new Application('Code owners CLI', '1.4.0');
 
 $app->addCommands([
     new OwnerCommand($workingDir, $fileLocatorFactory, $patternMatcherFactory),
