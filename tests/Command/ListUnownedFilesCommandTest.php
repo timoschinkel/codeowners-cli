@@ -81,12 +81,65 @@ final class ListUnownedFilesCommandTest extends TestCase
             $this->patternMatcherFactory->reveal()
         );
 
-        $output = $this->executeCommand($command, [
+        ['exit' => $exit, 'output' => $output] = $this->executeCommand($command, [
             'paths' => [
                 $filesystem->url() . '/folder',
             ]
         ]);
 
+        self::assertEquals(0, $exit);
+        self::assertEquals(
+            $filesystem->url() . '/folder/not-owned-by-owner' . PHP_EOL,
+            $output
+        );
+    }
+
+    public function testCommandListFilesOwnedBySpecifiedOwnerInStrictMode(): void
+    {
+        $filesystem = vfsStream::setup('root', 444, [
+            'CODEOWNERS' => '#',
+            'folder' => [
+                'owned-by-owner' => '#',
+                'not-owned-by-owner' => '#',
+            ],
+        ]);
+
+        $fileLocator = $this->prophesize(FileLocatorInterface::class);
+        $fileLocator->locateFile()
+            ->shouldBeCalled()
+            ->willReturn($filesystem->url() . '/CODEOWNERS');
+
+        $this->fileLocatorFactory
+            ->getFileLocator(Argument::type('string'), null)
+            ->shouldBeCalled()
+            ->willReturn($fileLocator->reveal());
+
+        $this->patternMatcher
+            ->match('folder/owned-by-owner')
+            ->willReturn(new Pattern('*', ['@owner']));
+
+        $this->patternMatcher
+            ->match('folder/not-owned-by-owner')
+            ->willThrow(NoMatchFoundException::class);
+
+        $this->patternMatcherFactory
+            ->getPatternMatcher($filesystem->url() . '/CODEOWNERS')
+            ->willReturn($this->patternMatcher->reveal());
+
+        $command = new ListUnownedFilesCommand(
+            $filesystem->url(),
+            $this->fileLocatorFactory->reveal(),
+            $this->patternMatcherFactory->reveal()
+        );
+
+        ['exit' => $exit, 'output' => $output] = $this->executeCommand($command, [
+            'paths' => [
+                $filesystem->url() . '/folder',
+            ],
+            '--strict' => true
+        ]);
+
+        self::assertNotEquals(0, $exit);
         self::assertEquals(
             $filesystem->url() . '/folder/not-owned-by-owner' . PHP_EOL,
             $output
@@ -146,14 +199,14 @@ final class ListUnownedFilesCommandTest extends TestCase
         ]);
     }
 
-    private function executeCommand(Command $command, array $parameters): string
+    private function executeCommand(Command $command, array $parameters): array
     {
         $application = new Application();
         $application->add($command);
 
         $tester = new CommandTester($application->find($command->getName()));
-        $tester->execute($parameters);
+        $exit = $tester->execute($parameters);
 
-        return $tester->getDisplay();
+        return ['exit' => $exit, 'output' => $tester->getDisplay()];
     }
 }
