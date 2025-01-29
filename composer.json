@@ -4,7 +4,7 @@
     "type": "project",
     "license": "Apache-2.0",
     "require": {
-        "php": "^8.0, <8.5",
+        "php": "^8.0",
         "symfony/console": "^6.0",
         "timoschinkel/codeowners": "^2.0",
         "symfony/finder": "^6.0"
