@@ -8,7 +8,7 @@ final class FileLocatorFactory implements FileLocatorFactoryInterface
 {
     public function getFileLocator(string $workingDirectory, string $specifiedFile = null): FileLocatorInterface
     {
-        return empty($specifiedFile) === false
+        return $specifiedFile !== null
             ? new SpecifiedFileLocator($specifiedFile)
             : new SearchFileLocator($workingDirectory);
     }

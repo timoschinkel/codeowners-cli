@@ -106,7 +106,8 @@ final class ListUnownedFilesCommand extends Command
         // not support `realpath`.
         return array_map(
             function (string $path): string {
-                return realpath($path) ?: $path;
+                $realpath = realpath($path);
+                return $realpath !== false ? $realpath : $path;
             },
             $paths
         );
