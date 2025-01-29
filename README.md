@@ -108,6 +108,7 @@ Arguments:
 
 Options:
   -c, --codeowners=CODEOWNERS  Location of code owners file, defaults to <working_dir>/CODEOWNERS
+      --strict                 Return a non-zero exit code when there are unowned files
 ```
 
 For example:

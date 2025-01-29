@@ -12,6 +12,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
@@ -54,6 +55,12 @@ final class ListUnownedFilesCommand extends Command
                 'c',
                 InputArgument::OPTIONAL,
                 'Location of code owners file, defaults to <working_dir>/CODEOWNERS'
+            )
+            ->addOption(
+                'strict',
+                null,
+                InputOption::VALUE_NONE,
+                'Return a non-zero exit code when there are unowned files'
             );
     }
 
@@ -83,6 +90,7 @@ final class ListUnownedFilesCommand extends Command
 
         $finder = new Finder();
 
+        $unownedFilesFound = false;
         foreach ($finder->in($paths)->files() as $file) {
             /** @var SplFileInfo $file */
             try {
@@ -93,11 +101,14 @@ final class ListUnownedFilesCommand extends Command
 
                 $matcher->match($filePath);
             } catch (NoMatchFoundException $exception) {
+                $unownedFilesFound = true;
                 $output->writeln((string)$file);
             }
         }
 
-        return 0;
+        return $input->getOption('strict') && $unownedFilesFound
+            ? 1
+            : 0;
     }
 
     private function normalizePaths(array $paths): array
