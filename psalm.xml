@@ -49,5 +49,7 @@
         <RawObjectIteration errorLevel="info" />
 
         <InvalidStringClass errorLevel="info" />
+
+        <UnusedClass errorLevel="suppress" />
     </issueHandlers>
 </psalm>

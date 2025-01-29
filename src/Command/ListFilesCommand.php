@@ -116,7 +116,8 @@ final class ListFilesCommand extends Command
         // not support `realpath`.
         return array_map(
             function (string $path): string {
-                return realpath($path) !== false ? realpath($path) : $path;
+                $realpath = realpath($path);
+                return $realpath !== false ? $realpath : $path;
             },
             $paths
         );
