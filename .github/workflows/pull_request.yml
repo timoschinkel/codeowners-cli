@@ -8,7 +8,8 @@ jobs:
     strategy:
       matrix:
         php-versions: ['8.1', '8.2', '8.3', '8.4']
-    name: PHP ${{ matrix.php-versions }}
+        symfony-versions: ['^6.0', '^7.0']
+    name: PHP ${{ matrix.php-versions }} with Symfony ${{ matrix.symfony-versions }}
 
     steps:
       - uses: actions/checkout@v2
@@ -17,8 +18,10 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           coverage: xdebug
-      - name: Install dependencies
+      - name: Install dependencies # Verify that the package can be installed for current environment
         run: composer install --prefer-dist --no-progress --no-suggest
+      - name: Configure Symfony    # Specify desired Symfony version
+        run: composer update --with symfony/console:${{ matrix.symfony-versions }} --with symfony/finder:${{ matrix.symfony-versions }} --ignore-platform-reqs -W
       - name: Unit tests
         run: ./vendor/bin/phpunit
       - name: Static Analysis
