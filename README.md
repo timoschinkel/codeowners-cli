@@ -61,6 +61,7 @@ Arguments:
 
 Options:
   -c, --codeowners=CODEOWNERS  Location of code owners file, defaults to <working_dir>/CODEOWNERS
+  -o, --owner-only             Suppress normal output, only output the owner when applicable
 ```
 
 For example:

@@ -7,15 +7,12 @@ namespace CodeOwners\Cli\Command;
 use CodeOwners\Cli\FileLocator\FileLocatorFactoryInterface;
 use CodeOwners\Cli\PatternMatcherFactoryInterface;
 use CodeOwners\Exception\NoMatchFoundException;
-use CodeOwners\Parser;
 use CodeOwners\Pattern;
-use CodeOwners\PatternMatcher;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
-use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class OwnerCommand extends Command
@@ -58,6 +55,12 @@ final class OwnerCommand extends Command
                 InputArgument::OPTIONAL,
                 'Location of code owners file, defaults to <working_dir>/CODEOWNERS'
             )
+            ->addOption(
+                'owner-only',
+                'o',
+                InputOption::VALUE_NONE,
+                'Suppress normal output, only output the owner when applicable'
+            )
         ;
     }
 
@@ -84,19 +87,27 @@ final class OwnerCommand extends Command
 
         foreach ($paths as $path) {
             if (file_exists($this->workingDirectory . '/' . $path) === false) {
-                $output->writeln("🚫 \"{$path}\" does not exist");
+                if ($input->getOption('owner-only') !== true) {
+                    $output->writeln("🚫 \"{$path}\" does not exist");
+                }
                 continue;
             }
 
             try {
                 $pattern = $matcher->match($path);
 
-                $owners = $this->formatOwners($pattern);
-                $output->writeln(
-                    "✅ \"{$path}\" is owned by {$owners} according to pattern \"{$pattern->getPattern()}\""
-                );
+                if ($input->getOption('owner-only') === true) {
+                    $output->writeln(join(PHP_EOL, $pattern->getOwners()));
+                } else {
+                    $owners = $this->formatOwners($pattern);
+                    $output->writeln(
+                        "✅ \"{$path}\" is owned by {$owners} according to pattern \"{$pattern->getPattern()}\""
+                    );
+                }
             } catch (NoMatchFoundException $exception) {
-                $output->writeln("🚫 \"{$path}\" has no code owner");
+                if ($input->getOption('owner-only') !== true) {
+                    $output->writeln("🚫 \"{$path}\" has no code owner");
+                }
             }
         }
 
