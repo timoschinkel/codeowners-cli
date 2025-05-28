@@ -90,6 +90,52 @@ final class OwnerCommandTest extends TestCase
         self::assertMatchesRegularExpression('/"file-non-existent".+does not exist/m', $output);
     }
 
+    public function testCommandDisplaysOwnersOnlyFoundForPaths(): void
+    {
+        $filesystem = vfsStream::setup('root', 444, [
+            'CODEOWNERS' => '#',
+            'file-a' => '#',
+            'file-b' => '#',
+        ]);
+
+        $fileLocator = $this->prophesize(FileLocatorInterface::class);
+        $fileLocator->locateFile()
+            ->shouldBeCalled()
+            ->willReturn($filesystem->url() . '/CODEOWNERS');
+
+        $this->fileLocatorFactory
+            ->getFileLocator(Argument::type('string'), null)
+            ->shouldBeCalled()
+            ->willReturn($fileLocator->reveal());
+
+        $this->patternMatcher
+            ->match('file-a')
+            ->shouldBeCalled()
+            ->willReturn(new Pattern('file-a', ['@owner-a', '@owner-b']));
+        $this->patternMatcher
+            ->match('file-b')
+            ->shouldBeCalled()
+            ->willThrow(NoMatchFoundException::class);
+
+        $this->patternMatcherFactory
+            ->getPatternMatcher($filesystem->url() . '/CODEOWNERS')
+            ->shouldBeCalled()
+            ->willReturn($this->patternMatcher->reveal());
+
+        $command = new OwnerCommand(
+            $filesystem->url(),
+            $this->fileLocatorFactory->reveal(),
+            $this->patternMatcherFactory->reveal()
+        );
+
+        $output = $this->executeCommand(
+            $command,
+            ['paths' => ['file-a', 'file-b', 'file-non-existent'], '--owner-only' => true]
+        );
+
+        self::assertEquals('@owner-a' . PHP_EOL . '@owner-b' . PHP_EOL, $output);
+    }
+
     public function testCommandPassesCodeownerFileLocation(): void
     {
         $filesystem = vfsStream::setup('root', 444, []);
