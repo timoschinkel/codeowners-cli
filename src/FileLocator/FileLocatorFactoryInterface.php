@@ -6,5 +6,5 @@ namespace CodeOwners\Cli\FileLocator;
 
 interface FileLocatorFactoryInterface
 {
-    public function getFileLocator(string $workingDirectory, string $specifiedFile = null): FileLocatorInterface;
+    public function getFileLocator(string $workingDirectory, ?string $specifiedFile = null): FileLocatorInterface;
 }
