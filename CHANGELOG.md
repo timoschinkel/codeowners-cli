@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Solve implicitly nullable parameters to better support PHP 8.4 ([#27](https://github.com/timoschinkel/codeowners-cli/pull/27))
 
+### Removed 
+- Support for PHP 8.1 ([#27](https://github.com/timoschinkel/codeowners-cli/pull/27))
+
 ## [1.6.0] - 2025-05-28
 ### Added
 - `-o`/`--owner-only` option for `codeowners owner` to print only the owner ([#26](https://github.com/timoschinkel/codeowners-cli/pull/26))
