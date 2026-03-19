@@ -152,7 +152,7 @@ final class ListFilesCommandTest extends TestCase
     private function executeCommand(Command $command, array $parameters): string
     {
         $application = new Application();
-        $application->add($command);
+        $application->addCommands([$command]);
 
         $tester = new CommandTester($application->find($command->getName()));
         $tester->execute($parameters);
