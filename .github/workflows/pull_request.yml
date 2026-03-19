@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['8.2', '8.3', '8.4']
+        php-versions: ['8.2', '8.3', '8.4', '8.5']
     name: PHP ${{ matrix.php-versions }}
 
     steps:
@@ -37,4 +37,4 @@ jobs:
           ./vendor/bin/phpunit
           ./vendor/bin/psalm
           ./vendor/bin/phpcs
-        if: contains(matrix.php-versions, '8.4')
+        if: contains(matrix.php-versions, '8.4') || contains(matrix.php-versions, '8.5')
