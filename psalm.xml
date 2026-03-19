@@ -51,5 +51,6 @@
         <InvalidStringClass errorLevel="info" />
 
         <UnusedClass errorLevel="suppress" />
+        <MissingOverrideAttribute errorLevel="suppress" />
     </issueHandlers>
 </psalm>
