@@ -202,7 +202,7 @@ final class ListUnownedFilesCommandTest extends TestCase
     private function executeCommand(Command $command, array $parameters): array
     {
         $application = new Application();
-        $application->add($command);
+        $application->addCommands([$command]);
 
         $tester = new CommandTester($application->find($command->getName()));
         $exit = $tester->execute($parameters);
